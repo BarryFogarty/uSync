@@ -18,7 +18,7 @@
     {
         public string Name { get { return "uSync: TemplateHandler"; } }
         public int Priority { get { return uSyncConstants.Priority.Templates; } }
-        public string SyncFolder { get { return Constants.Packaging.TemplateNodeName; } }
+        public string SyncFolder { get { return "Templates"; } }
 
         public override SyncAttempt<ITemplate> Import(string filePath, bool force = false)
         {

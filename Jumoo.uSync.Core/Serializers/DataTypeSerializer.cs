@@ -306,29 +306,23 @@ namespace Jumoo.uSync.Core.Serializers
 
 
 
+        // BF Mods 
         internal override SyncAttempt<XElement> SerializeCore(IDataTypeDefinition item)
         {
             try {
                 var node = new XElement(Constants.Packaging.DataTypeNodeName,
-                    new XAttribute("Name", item.Name),
+                    //new XAttribute("Name", item.Name),
                     new XAttribute("Key", item.Key),
-                    new XAttribute("Id", item.PropertyEditorAlias),
-                    new XAttribute("DatabaseType", item.DatabaseType.ToString())                    
+                    new XAttribute("Alias", item.PropertyEditorAlias),
+                    new XAttribute("Level", item.Level)
+                    //new XAttribute("DatabaseType", item.DatabaseType.ToString())                    
                     );
 
+                node.Add(SerializeInfo(item));
 
-                if (item.Level != 1)
-                {
-                    var folders = _dataTypeService.GetContainers(item)
-                        .OrderBy(x => x.Level)
-                        .Select(x => HttpUtility.UrlEncode(x.Name));
+                node.Add(SerializeConfig(item, node));
 
-                    if (folders.Any())
-                        node.Add(new XAttribute("Folder", string.Join("/", folders.ToArray())));
-
-                }
-
-                node.Add(SerializePreValues(item, node));
+                //node.Add(SerializePreValues(item, node)); //TODO: Migrate to JSON Config node
                 UpdateDataTypeCache(item);
 
                 return SyncAttempt<XElement>.Succeed(item.Name, node, typeof(IDataTypeDefinition), ChangeType.Export); 
@@ -340,6 +334,37 @@ namespace Jumoo.uSync.Core.Serializers
             }
         }
 
+        private XElement SerializeInfo(IDataTypeDefinition item)
+        {
+            var info = new XElement("Info",
+                            //new XElement("Key", item.Key),
+                            new XElement("Name", item.Name),
+                            new XElement("EditorAlias", item.PropertyEditorAlias),
+                            new XElement("DatabaseType", item.DatabaseType)
+                            );
+
+            if (item.Level != 1)
+            {
+                var folders = _dataTypeService.GetContainers(item)
+                    .OrderBy(x => x.Level)
+                    .Select(x => HttpUtility.UrlEncode(x.Name));
+
+                if (folders.Any())
+                    info.Add(new XAttribute("Folder", string.Join("/", folders.ToArray())));
+
+            }
+
+            return info;
+        }
+
+        private XElement SerializeConfig(IDataTypeDefinition item, XElement node)
+        {
+            var nodeConfig = new XElement("Config");
+
+            //TODO:  Add prevalues to Config node.
+
+            return nodeConfig;
+        }
 
         private XElement SerializePreValues(IDataTypeDefinition item, XElement node)
         {

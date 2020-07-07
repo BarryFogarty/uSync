@@ -23,7 +23,7 @@ namespace Jumoo.uSync.BackOffice.Handlers
     {
         public string Name { get { return "uSync: DataTypeHandler"; } }
         public int Priority { get { return uSyncConstants.Priority.DataTypes; } }
-        public string SyncFolder { get { return Constants.Packaging.DataTypeNodeName; } }
+        public string SyncFolder { get { return "DataTypes"; } }
 
         readonly IDataTypeService _dataTypeService;
         readonly IEntityService _entityService;
@@ -109,7 +109,14 @@ namespace Jumoo.uSync.BackOffice.Handlers
 
                 if (attempt.Success)
                 {
-                    filename = uSyncIOHelper.SavePath(folder, SyncFolder, GetItemPath(item), item.Name.ToSafeAlias());
+                    // BF mods
+                    filename = uSyncIOHelper.SavePath(
+                        folder,
+                        SyncFolder,
+                        string.Empty,
+                        item.PropertyEditorAlias); //item.Name.ToSafeAlias());
+                    
+                    
                     uSyncIOHelper.SaveNode(attempt.Item, filename);
                 }
 

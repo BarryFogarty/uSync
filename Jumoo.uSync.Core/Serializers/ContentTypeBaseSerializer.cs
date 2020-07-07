@@ -474,9 +474,9 @@ namespace Jumoo.uSync.Core.Serializers
         internal XElement SerializeInfo(IContentTypeBase item)
         {
             var info = new XElement("Info",
-                            new XElement("Key", item.Key),
+                            //new XElement("Key", item.Key),
                             new XElement("Name", item.Name),
-                            new XElement("Alias", item.Alias),
+                            //new XElement("Alias", item.Alias),
                             new XElement("Icon", item.Icon),
                             new XElement("Thumbnail", item.Thumbnail),
                             new XElement("Description", string.IsNullOrEmpty(item.Description) ? "" : item.Description ),

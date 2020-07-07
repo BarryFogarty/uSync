@@ -21,7 +21,7 @@ namespace Jumoo.uSync.BackOffice.Handlers
     {
         public string Name { get { return "uSync: MediaTypeHandler"; } }
         public int Priority { get { return uSyncConstants.Priority.MediaTypes; } }
-        public string SyncFolder { get { return "MediaType"; } }
+        public string SyncFolder { get { return "MediaTypes"; } }
 
         private IContentTypeService _contentTypeService;
         private IEntityService _entityService;

@@ -21,7 +21,7 @@ namespace Jumoo.uSync.BackOffice.Handlers
     {
         public string Name { get { return "uSync: MemberTypeHandler"; } }
         public int Priority { get { return uSyncConstants.Priority.MemberTypes; } }
-        public string SyncFolder { get { return "MemberType"; } }
+        public string SyncFolder { get { return "MemberTypes"; } }
 
         private IMemberTypeService _memberTypeService; 
 
@@ -57,7 +57,12 @@ namespace Jumoo.uSync.BackOffice.Handlers
 
                 if (attempt.Success)
                 {
-                    filename = uSyncIOHelper.SavePath(folder, SyncFolder, GetItemPath(item), "def");
+                    // BF Mods
+                    filename = uSyncIOHelper.SavePath(
+                        folder, 
+                        SyncFolder, 
+                        string.Empty,
+                        item.Alias);
 
                     uSyncIOHelper.SaveNode(attempt.Item, filename);
                 }

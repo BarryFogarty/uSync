@@ -405,12 +405,16 @@ namespace Jumoo.uSync.Core.Serializers
             // Tabs
             var tabs = SerializeTabs(item);
 
-            var node = new XElement(Constants.Packaging.DocumentTypeNodeName,
+            var node = new XElement("ContentType",
                                         info,                                        
                                         structure,
                                         properties,
                                         tabs);
 
+            // BF mods
+            node.Add(new XAttribute("Key", item.Key));
+            node.Add(new XAttribute("Alias", item.Alias));
+            node.Add(new XAttribute("Level", item.Level));
 
             return SyncAttempt<XElement>.Succeed(item.Name, node, typeof(IContentType), ChangeType.Export);
         }

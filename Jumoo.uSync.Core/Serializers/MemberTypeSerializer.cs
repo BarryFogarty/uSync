@@ -101,6 +101,11 @@ namespace Jumoo.uSync.Core.Serializers
                                 properties,
                                 tabs);
 
+            // BF mods
+            node.Add(new XAttribute("Key", item.Key));
+            node.Add(new XAttribute("Alias", item.Alias));
+            node.Add(new XAttribute("Level", item.Level));
+
             return SyncAttempt<XElement>.Succeed(item.Name, node, typeof(IMemberType), ChangeType.Export);
         }
 

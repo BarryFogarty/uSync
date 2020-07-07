@@ -25,7 +25,7 @@ namespace Jumoo.uSync.BackOffice.Handlers
         // sets our running order in usync. 
         public int Priority { get { return uSyncConstants.Priority.ContentTypes; } }
         public string Name { get { return "uSync: ContentTypeHandler"; } }
-        public string SyncFolder { get { return Constants.Packaging.DocumentTypeNodeName; } }
+        public string SyncFolder { get { return "ContentTypes"; } }
 
         private readonly IContentTypeService _contentTypeService;
         private readonly IEntityService _entityService;
@@ -123,11 +123,12 @@ namespace Jumoo.uSync.BackOffice.Handlers
                 if (attempt.Success)
                 {
 
+                    // BF Mods - v8-style folder structure
                     filename = uSyncIOHelper.SavePath(
                             folder,
                             SyncFolder,
-                            GetItemPath(item),
-                            "def");
+                            string.Empty,
+                            item.Alias);
 
                     uSyncIOHelper.SaveNode(attempt.Item, filename);
                 }
